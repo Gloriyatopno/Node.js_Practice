@@ -37,8 +37,25 @@ app.command({
 app.command({
     command: 'remove',
     describe: 'Remove a note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function (argv) {
+        notes.removeNote(argv.title)
+    }
+})
+
+
+// Create list command
+app.command({
+    command: 'list',
+    describe: 'List your notes',
     handler: function() {
-        console.log('Removing the note!')
+        console.log('Listing out all notes!')
     }
 })
 
