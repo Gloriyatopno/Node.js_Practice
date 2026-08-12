@@ -1,21 +1,45 @@
 const chalk = require('chalk')
 const validate = require('validator')
-const Arithmetic = require('./Arithmetic.js')
+const notes = require('./notes.js')
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
 
-const sum = Arithmetic(5, 10)
-console.log(sum)
+const app = yargs(hideBin(process.argv))
 
-console.log(validate.isEmail('gloriya@gmail.com'))
-console.log(validate.isURL('https://www.google.com'))
 
-const bluemsg = chalk.bold.inverse.blue('Hello, World!')
-console.log(bluemsg)
+// customize yargs version
+app.version('1.1.0')
 
-console.log(chalk.red('Success!'))
 
-const command = process.argv[2]
-if (command === 'add') {
-    console.log('Adding Note!')
-} else if (command === 'remove') {
-    console.log('Removing Note!')
-}
+// create add command
+app.command({
+    command: 'add',
+    describe: 'Add a new note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        },
+        body: {
+            describe: 'Note body',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function(argv) {
+        notes.addNote(argv.title, argv.body)
+    }
+})
+
+
+// Create remove command
+app.command({
+    command: 'remove',
+    describe: 'Remove a note',
+    handler: function() {
+        console.log('Removing the note!')
+    }
+})
+
+app.parse()
