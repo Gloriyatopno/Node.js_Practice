@@ -27,7 +27,7 @@ app.command({
             type: 'string'
         }
     },
-    handler: function(argv) {
+    handler(argv) {
         notes.addNote(argv.title, argv.body)
     }
 })
@@ -44,7 +44,7 @@ app.command({
             type: 'string'
         }
     },
-    handler: function (argv) {
+    handler(argv) {
         notes.removeNote(argv.title)
     }
 })
@@ -54,8 +54,17 @@ app.command({
 app.command({
     command: 'list',
     describe: 'List your notes',
-    handler: function() {
+    handler () {
         console.log('Listing out all notes!')
+    }
+})
+
+// Create read command
+app.command({
+    command: 'read',
+    describe: 'Read a note',
+    handler() {
+        console.log('Reading a note!')
     }
 })
 
