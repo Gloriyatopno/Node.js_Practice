@@ -3,12 +3,16 @@ const express= require("express")
 const hbs = require('hbs')
 const { title } = require('process')
 const app = express()
+//Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')
-const viewsPath = path.join(__dirname, '../views')
+const viewsPath = path.join(__dirname,'../templates/views')
+const partialPath = path.join(__dirname,'../templates/partials')
+//setup static directory to serve
 app.use(express.static(publicDirectoryPath))
-
+//setup handlebars engine and views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
+hbs.registerPartials(partialPath)
 
 app.get('',(req,res) =>{
     res.render('index', {
@@ -18,9 +22,10 @@ app.get('',(req,res) =>{
 })
 
 app.get('/help',(req, res) =>{
-    res.send({
-        name: 'Gloriya',
-        age: 20
+    res.render('help',{
+        helptext: 'This is some helpful text.',
+        title: 'Help',
+        name: 'Gloriya'
     })
 })
 
